@@ -1,0 +1,62 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins';
+//====================================================================================================
+.header {
+	@include adaptiveValue("padding-top", 50, 25);
+	@include adaptiveValue("padding-bottom", 50, 25);
+	&__container {
+		display: flex;
+		align-items: center;
+		column-gap: rem(25);
+		row-gap: rem(30);
+		@media (max-width:$mobile){
+			 flex-direction: column; 
+		}
+	}
+
+	&__logo {
+		font-size: rem(28);
+		font-weight: 700;
+		span{
+			color: $claret;
+		}
+	}
+
+	&__nav {
+		flex: 1 1 auto;
+	}
+}
+.nav {
+	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		gap: rem(8);
+		align-items: center;
+	}
+
+	&__item {
+		position: relative;
+		display: flex;
+		&:not(:last-child){
+			&::after {
+				content:'/';
+				font-weight: 700;
+				margin-left: rem(8);
+				font-size: rem(24);
+				display: inline-block;
+			}
+		}
+	}
+
+	&__link {
+		font-size: rem(24);
+		font-weight: 700;
+		&._active{
+			color: $claret;
+		}
+	}
+}
+
+//====================================================================================================

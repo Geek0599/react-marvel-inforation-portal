@@ -1,0 +1,30 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+
+.btn-go-up{
+	position: fixed;
+	min-width: 70px;
+	bottom: 40px;
+	right: 40px;
+	width: auto;
+	height: auto;
+	z-index: 100;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(30px);
+	transition: all 0.3s ease 0s;
+	border: 2px solid $claret; 
+	&._show{
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0px);
+	}
+	@media (max-width: 500px){
+		bottom: 30px;
+    	right: 15px;
+	}
+	@media (max-width: 370px){
+    	right: 5px;
+		 min-width: 60px;
+	}
+}

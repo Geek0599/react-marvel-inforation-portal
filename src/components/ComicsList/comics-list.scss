@@ -1,0 +1,38 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.comics {
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	&__items {
+		width: 100%;
+		display: grid;
+		@include adaptiveValue("column-gap", 65, 35);
+		@include adaptiveValue("row-gap", 55, 25);
+		grid-template-columns: repeat(auto-fit, minmax(rem(225), rem(225)));
+		&.error{
+			width: initial;
+			display: block;
+		}
+		&:has(:nth-child(4)){
+			grid-template-columns: repeat(auto-fit, minmax(rem(225), 1fr));
+		}
+		@media (max-width:$tablet){
+			grid-template-columns: repeat(auto-fit, minmax(rem(225), 1fr));
+		}
+	}
+	&__btn {
+		min-width: rem(170);
+		@include adaptiveValue("margin-top", 45, 25);
+		&:disabled{
+			opacity: 0.6;
+			pointer-events: none;
+		}
+	}
+}

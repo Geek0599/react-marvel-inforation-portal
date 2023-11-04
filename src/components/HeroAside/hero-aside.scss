@@ -1,0 +1,178 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins';
+@import '../../styles/awesome-styles.scss';
+
+.hero-aside {
+	@media (min-width:$tablet){
+		flex: 0 1 rem(425);
+	}
+	&__body{
+		position: sticky;
+		top: 0;
+		display: grid;
+		@media (min-width:$tablet){
+			transition: margin 0.4s ease 0s;
+		}
+		@media (min-width:$tablet){
+			padding-bottom: rem(372);
+			@media (max-width: em(1230)){
+				@include adaptiveValue("padding-bottom", 372, 310);
+			} 
+		}
+	}
+	&__wrapper{
+		background: #FFF;
+		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+		align-self: flex-start;
+		@include adaptiveValue("padding", 25, 20);
+		&:not(:last-child){
+			margin-bottom: 30px;
+		}
+	}
+	&__top {
+		margin-bottom: rem(15);
+	}
+
+	&__text {
+		@include adaptiveValue("font-size", 16, 18);
+		@include adaptiveValue("margin-bottom", 18, 23);
+	}
+
+	&__sub-title {
+		font-weight: 700;
+		@include adaptiveValue("font-size", 18, 20);
+		@include adaptiveValue("margin-bottom", 13, 18);
+	}
+
+	&__list {
+		@media (min-width:$tablet){
+			max-height: 34vh;
+			overflow-y: auto;
+			margin: -10px;
+			padding: 10px;
+		}
+		&::-webkit-scrollbar{width:8px}
+		&::-webkit-scrollbar-track{border-radius:10px;outline:1px solid #91909C}
+		&::-webkit-scrollbar-thumb{background-color:#9F9F9F;border-radius:10px}
+	}
+
+	&__item {
+		background: #FFF;
+		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+		&:not(:last-child){
+			margin-bottom: rem(10);
+		}
+	}
+
+	&__link {
+		padding: rem(10) rem(10);
+		display: block;
+		@media (max-width:$mobile){
+				font-size: 16px; 
+		}
+	}
+	&__bg{
+		position: absolute;
+		bottom: 0;
+		right: -35.76%;
+		width: 100%;
+		@include adaptiveValue("height", 372, 310);
+		img{
+			max-width: 100%;
+			max-height: 100%;
+		}
+		@media (max-width: em(1400)){
+			  right: -15%;
+		}
+		@media (max-width: em(1230)){
+			  right: -5%;
+		}
+		@media (max-width:$tablet){
+			display: none;	  
+		}
+	}
+}
+.top-hero-aside {
+	display: flex;
+	gap: rem(30);
+		&__image-body{
+			flex: 0 0 rem(150);
+			min-width: rem(150);
+		}
+		&__image-ibg {
+			padding-bottom: percent(150,150);
+		}
+
+		&__row {
+			display: flex;
+			flex-direction: column;
+			gap: rem(10);	
+			@media (max-width:$tablet){
+				width: 100%;
+				flex-direction: row;
+				flex-wrap: wrap;
+				
+			}
+		}
+
+		&__title {
+			flex: 1 1 100%;
+		}
+
+		&__btn {
+			align-self: flex-start;
+			@media (max-width:$tablet){
+				align-self: flex-end;
+				flex: 0 0 auto;
+			}
+		}
+}
+//===================================================================================================================================
+.skeleton{
+	.top-hero-aside__image-body,
+	.top-hero-aside__title,
+	.top-hero-aside__btn,
+	.hero-aside__sub-title,
+	.hero-aside__item{
+		@extend %skeleton-bg;
+	}
+	.top-hero-aside__title{
+		flex: initial;
+		width: 100%;
+		max-width: 265px;
+		height: 40px;
+		border-radius: 5px;
+	}
+	.hero-aside__sub-title{
+		height: 33px;
+		width: 100%;
+		max-width: 88px;
+		border-radius: 5px;
+	}
+	.hero-aside__item{
+		height: 33px;
+		border-radius: 5px;
+	}
+	.top-hero-aside__btn{
+		height: 36px;
+	}
+	.top-hero-aside__btns{
+		display: flex;
+		flex-direction: column;
+		gap: 0.625rem;
+	}
+	.top-hero-aside__row{
+		flex-wrap: wrap;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	@media (max-width: em(500)){
+		.top-hero-aside{
+			flex-direction: column;
+		}
+		.top-hero-aside__title{
+			max-width: 100%;
+		}
+	}
+}

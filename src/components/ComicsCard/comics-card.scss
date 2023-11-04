@@ -1,0 +1,50 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+@import '../../styles/awesome-styles.scss';
+.comics-card {
+	transition: transform 0.3s ease 0s;
+	@media (any-hover: hover){
+		&:hover{
+			transform: translateY(-2.5%);
+		}
+	}
+	&__img-ibg {
+		padding-bottom: percent(346,225);
+		background: lightgray 50% / cover no-repeat;
+		box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+		margin-bottom: rem(10);
+	}
+
+	&__info {
+		&>:not(*:last-child){
+			margin-bottom: rem(5);
+		}
+	}
+
+	&__title {
+		font-size: 14px;
+	}
+
+	&__price {
+		color: rgba(0, 0, 0, 0.60);
+		font-size: 14px;
+		font-weight: 700;
+	}
+	&.skeleton{
+		.comics-card__img-ibg,
+		.comics-card__title,
+		.comics-card__price{
+			@extend %skeleton-bg;
+			border-radius: 5px;
+		}
+		.comics-card__title{
+			width: 80%;
+			height: 17px;
+		}
+		.comics-card__price {
+			height: 20px;
+			width: 30%;
+		}
+	}
+}

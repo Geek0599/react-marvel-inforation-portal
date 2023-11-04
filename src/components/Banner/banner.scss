@@ -1,0 +1,49 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins';
+
+.banner {
+	&__container {
+	}
+	&__body{
+		display: flex;
+		gap: rem(15);
+		background-color: $gray;
+		padding-top: rem(18);
+		padding-bottom: rem(18);
+		@media (max-width:$mobileSmall){
+			 flex-direction: column;
+			align-items: center;
+		}
+	}
+
+	&__img {
+		display: flex;
+		flex: 0 1 25%;
+		img{
+			margin: auto auto;
+			max-height: rem(130);
+			max-width: 100%;
+		}
+		@media (min-width:$mobileSmall){
+			margin-top: rem(-18);
+			margin-bottom: rem(-18);
+		}
+		&:last-child{
+			justify-content: flex-end;
+		}
+	}
+
+	&__text {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		flex: 1 1 auto;
+		color: #fff;
+		p{
+			&:not(:last-child){
+				margin-bottom: rem(8);
+			}
+		}
+	}
+}

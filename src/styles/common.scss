@@ -1,0 +1,82 @@
+// Заголовки, общие БЄМ блоки и проче...
+.title{
+	color: #000;
+	font-size: rem(22);
+	font-weight: 700;
+}
+
+.btn{
+	--background-color: #5C5C5C;
+	--border-color: linear-gradient(to bottom right, red, blue);
+	--border-width: 0.5em;
+	--edge-size: 0.7em;
+	--edge-size-h: 0.95em;
+
+	cursor: pointer;
+	padding: rem(11) rem(15);
+	min-width: rem(101);
+	color: #fff;
+  	background: var(--background-color);
+  	transition: all 0.3s ease 0s;
+  	border: 0;
+  	position: relative;
+  	isolation: isolate;
+  	display: inline-grid;
+  	place-content: center;
+  	clip-path: polygon(
+    var(--edge-size) 0%,
+    100% 0,
+    100% calc(100% - var(--edge-size)),
+    calc(100% - var(--edge-size)) 100%,
+    0 100%,
+    0% var(--edge-size)
+  );
+  	&_red{
+		background-color: $claret;
+	}
+  @media (any-hover: hover){
+	  &:hover{
+			clip-path: polygon(
+				var(--edge-size-h) 0%,
+				100% 0,
+				100% calc(100% - var(--edge-size-h)),
+				calc(100% - var(--edge-size-h)) 100%,
+				0 100%,
+				0% var(--edge-size-h)
+			);
+	  }
+  }
+}
+
+.d-flex{
+	display: flex;
+	&_center{
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+.hover-underline{
+	position: relative;
+	&:after {    
+		content: "";
+		background: none repeat scroll 0 0 transparent;
+		bottom: -2px;
+		display: block;
+		height: 2px;
+		left: 50%;
+		position: absolute;
+		background: $mainColor;
+		transition: width 0.3s ease 0s, left 0.3s ease 0s;
+		width: 0;
+	 }
+
+	 @media (any-hover: hover){
+		&:not(._active):hover{
+			&:after { 
+				width: 100%; 
+				left: 0; 
+			 }
+		}
+	}
+}

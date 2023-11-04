@@ -1,0 +1,142 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins';
+@import '../../styles/awesome-styles.scss';
+
+.character {
+	&__container {
+		display: flex;
+		@include adaptiveValue("gap", 50, 25);
+		@media (max-width:$mobile){
+			 flex-direction: column; 
+		}
+	}
+
+	&__image-body {
+		flex: 0 0 rem(293);
+		&_comics{
+			.character__img-ibg{
+				padding-bottom: percent(450,293);
+			}
+		}
+	}
+
+	&__img-ibg {
+		padding-bottom: percent(293,293);
+	}
+
+	&__row {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+	}
+	&__row-title{
+		display: flex;
+		align-items: center;
+		gap: rem(30);
+		&:not(:last-child){
+			margin-bottom: rem(25);
+		}
+	}
+	&__btn-back{
+		font-size: 18px;
+		font-weight: 700;
+	}
+	&__btn{
+		align-self: flex-start;
+		margin-bottom: 15px;
+	}
+
+	&__title {
+		flex: 1 1 auto;
+	}
+
+	&__text {
+		font-size: 18px;
+		font-weight: 400;
+		max-width: rem(550);
+		&:not(:last-child){
+			margin-bottom: rem(25);
+		}
+	}
+	&__label{
+		font-size: 18px;
+		&:not(:last-child){
+			margin-bottom: rem(25);
+		}
+	}
+	&__price{
+		color: #9F0013;
+		font-size: 24px;
+		font-weight: 700;
+	}
+	&__comics-title{
+		margin-bottom: 10px;
+	}
+
+	&__list {
+		@media (min-width:$tablet){
+			max-height: 34vh;
+			overflow-y: auto;
+			margin: -10px;
+			padding: 10px;
+		}
+		&::-webkit-scrollbar{width:8px}
+		&::-webkit-scrollbar-track{border-radius:10px;outline:1px solid #91909C}
+		&::-webkit-scrollbar-thumb{background-color:#9F9F9F;border-radius:10px}
+	}
+
+	&__item {
+		background: #FFF;
+		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+		&:not(:last-child){
+			margin-bottom: rem(10);
+		}
+	}
+
+	&__link {
+		padding: rem(10) rem(10);
+		display: block;
+		@media (max-width:$mobile){
+				font-size: 16px; 
+		}
+	}
+
+	&.skeleton{
+		.character__image-body,
+		.character__title,
+		.character__btn-back,
+		.character__text,
+		.character__label,
+		.character__price{
+			@extend %skeleton-bg;
+		}
+		.character__row-title{
+			justify-content: space-between;
+		}
+		.character__title{
+			border-radius: 5px;
+			max-width: 50%;
+			height: 30px;
+		}
+		.character__btn-back{
+			width: 75px;
+			height: 19px;
+			border-radius: 5px;
+		}
+		.character__text{
+			border-radius: 5px;
+			height: 150px;
+		}
+		.character__label{
+			max-width: 150px;
+			height: 35px;
+			border-radius: 5px;
+		}
+		.character__price{
+			height: 35px;
+			max-width: 100px;
+			border-radius: 5px;
+		}
+	}
+}

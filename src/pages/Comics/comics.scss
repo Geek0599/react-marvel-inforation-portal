@@ -1,0 +1,14 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.page {
+	padding-bottom: rem(40);
+	&__banner {
+		@include adaptiveValue("margin-bottom", 47, 25);
+	}
+
+	&__comics {
+	}
+}
+

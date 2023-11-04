@@ -1,0 +1,52 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins';
+
+.find-hero {
+
+	&__title {
+		margin-bottom: rem(15);
+	}
+
+	&__row {
+		display: flex;
+		align-items: center;
+		@include adaptiveValue("gap", 24, 10);
+		&:not(:last-child){
+			margin-bottom: rem(15);
+		}
+	}
+
+	&__input {
+		min-width: 100px;
+    	width: 100%;
+		flex: 1 1 auto;
+		padding: 10px;
+		background: #FFF;
+		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+		color: rgba(0, 0, 0, 0.50);
+		font-size: 14px;
+		font-weight: 400;
+		&:not(:placeholder-shown){
+			color: #000;
+		}
+	}
+
+	&__btn {
+		&:disabled{
+			opacity: 0.6;
+		}
+	}
+
+	&__message {
+		flex: 1 1 auto;
+		font-size: 18px;
+		font-weight: 700;
+		&._error{
+			color: $claret;
+		}
+		&._succes{
+			color: $green;
+		}
+	}
+}

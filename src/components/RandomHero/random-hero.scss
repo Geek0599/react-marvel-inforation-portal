@@ -1,0 +1,180 @@
+@use "sass:math";
+@import '../../styles/variables.scss';
+@import '../../styles/mixins';
+
+.random-hero {
+		&__container {
+			@media (min-width: $tablet){
+				display: flex;
+				flex-direction: row-reverse;
+				flex-wrap: wrap;
+			}
+		}
+
+		&__info-block {
+		}
+
+		&__controlls {
+		}
+}
+.random-hero-info {
+	@include adaptiveValue("padding-top", 35, 15);
+	@include adaptiveValue("padding-bottom", 35, 15);
+	@include adaptiveValue("padding-left", 40, 15);
+	@include adaptiveValue("padding-right", 40, 15);
+	@include adaptiveValue("gap", 30, 20);
+	display: flex;
+	justify-content: center;
+	flex: 1 1 50%;
+	box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.25);
+	@media (max-width:$tablet){
+		flex: 1 1 100%;
+	}
+	@media (max-width: rem(570)){
+		 flex-direction: column;
+	}
+	&__img-body{
+		width: 100%;
+		align-self: flex-start;
+		flex: 0 1 rem(180);
+		min-width: rem(180);
+		@media (max-width:$tablet)and (min-width: rem(570)){
+			max-width: 35%;
+		}
+		@media (max-width:$tablet){
+			flex: 1 1 percent(180, 550);
+			min-width: rem(200);
+		}
+		@media (max-width: rem(570)){
+			align-self: center;
+		}
+	}
+	&__image-ibg {
+		padding-bottom: 100%;
+	}
+
+	&__content {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		&>:not(*:last-child){
+			margin-bottom: 13px;
+		}
+	}
+
+	&__title {
+		min-width: 200px;
+		width: 100%;
+	}
+
+	&__text {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 5;
+		-webkit-box-orient: vertical;
+		@media (max-width:$tablet){
+			-webkit-line-clamp: 7;
+		}
+	}
+
+	&__buttons {
+		flex: 1 1 auto;
+		align-items: flex-end;
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: rem(30);
+		row-gap: rem(10);
+	}
+	
+	&__button {
+		@media (max-width:$mobileSmall){
+			flex: 1 1 100%;
+		}
+	}
+}
+.random-hero-controlls {
+	@include adaptiveValue("padding-top", 35, 15);
+	@include adaptiveValue("padding-bottom", 35, 15);
+	@include adaptiveValue("padding-left", 40, 15);
+	@include adaptiveValue("padding-right", 40, 15);
+	flex: 1 1 50%;
+	background-color: #232222;
+	box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.25);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	&>:not(*:last-child){
+		margin-bottom: 13px;
+		z-index: 1;
+	}
+		&__title {
+			color: #fff;
+		}
+
+		&__text {
+			margin-top: 41px;
+			color: #fff;
+			flex: 1 1 auto;
+			display: flex;
+    		align-items: flex-end;
+		}
+
+		&__btn {
+			&::before {
+				border-color: $gray transparent transparent transparent;
+			}
+			&::after{
+				border-color: transparent transparent $gray transparent;
+			}
+		}
+
+		&__bg {
+			position: absolute;
+			z-index: 0;
+			bottom: rem(14);
+			right: rem(-30);
+			@media (max-width: em(550)){
+				 opacity: 0.7; 
+			}
+		}
+}
+$loading-grey: #D1CACA;
+.skeleton{
+	.random-hero-info__image-ibg,
+	.random-hero-info__title,
+	.random-hero-info__button,
+	.random-hero-info__text{
+		background-color: $loading-grey;
+		background: linear-gradient(
+			100deg,
+			rgba(255, 255, 255, 0) 40%,
+			rgba(255, 255, 255, .5) 50%,
+			rgba(255, 255, 255, 0) 60%
+		) $loading-grey;
+		background-size: 200% 100%;
+		background-position-x: 180%;
+		animation: 1s loading ease-in-out infinite;
+	}
+	.random-hero-info__title{
+		height: 30px;
+    	border-radius: 5px;
+		width: 80%;
+	}
+	.random-hero-info__button{
+		height: 40px;
+	}
+	.random-hero-info__text{
+		flex: 1 1 auto;
+		border-radius: 5px;
+		height: 84px;
+	}
+	.random-hero-info__buttons{
+		flex: initial;
+	}
+}
+@keyframes loading {
+	to {
+	  background-position-x: -20%;
+	}
+ }
