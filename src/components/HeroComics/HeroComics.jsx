@@ -77,7 +77,7 @@ const HeroComics = ({classModificator}) => {
 					<div className="character__text">{data?.description ? data.description : 'There is no description about this character'}</div>
 					{isComics ? (
 						<>
-							<div className="character__label"><strong>On save Date:</strong> {formatDate(data.onsaleDate.date)}</div>
+							{data.onsaleDate ? <div className="character__label"><strong>On save Date:</strong> {formatDate(data.onsaleDate.date)}</div> : null}
 							<div className="character__label">{data.pages} pages</div>
 							<div className="character__label"><strong>Language:</strong> {data.language}</div>
 							<div className="character__price">{data.price}</div>
@@ -95,7 +95,7 @@ const HeroComics = ({classModificator}) => {
 									const comicId = comic.resourceURI.split('/').pop();
 									return <li className='character__item' key={comicId}><Link className='character__link' to={`/comics/${comicId}`}>{comic.name}</Link></li>
 								}) : 
-								<li className='character__item'>There is no comics about this character.</li>
+								<li className='character__item character__link'>There is no comics about this character.</li>
 								}
 							</ul>
 						</>

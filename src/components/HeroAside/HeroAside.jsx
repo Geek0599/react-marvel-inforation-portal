@@ -57,7 +57,7 @@ const HeroAside = ({heroId}) => {
 	
 	return (
 		<StickyContainer className="hero-aside">
-			<Sticky>
+			<Sticky disableIf={window.innerWidth < 992}>
 				{({ style, isSticky}) => (
 					<div style={{...style, marginTop: isSticky ? '15px' : '0px'}} className="hero-aside__body">
 						{error ? (<ErrorMessage style={{maxWidth: '200px', width: '100%', margin: '10px auto 10px auto'}} />) : null}

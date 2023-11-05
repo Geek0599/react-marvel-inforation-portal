@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import ComicsCard from '../../components/ComicsCard/ComicsCard'
 import useMarvelService from '../../services/MarvelService';
 import useCachingService from '../../services/CachingDataService';
+
+import ComicsCard from '../../components/ComicsCard/ComicsCard'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 
 import './comics-list.scss'

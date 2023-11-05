@@ -24,8 +24,8 @@ const Banner = ({classModificator}) => {
 		</div>
 	)
 }
-export default Banner;
-
 Banner.propTypes = {
 	classModificator : PropTypes.string
 }
+
+export default Banner;

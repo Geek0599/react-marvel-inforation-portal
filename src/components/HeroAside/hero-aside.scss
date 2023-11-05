@@ -7,6 +7,13 @@
 	@media (min-width:$tablet){
 		flex: 0 1 rem(425);
 	}
+	@media (max-width:$tablet){
+		& > :first-child{
+			& > :first-child{
+				display: none;
+			}
+		}
+	}
 	&__body{
 		position: sticky;
 		top: 0;
@@ -19,6 +26,13 @@
 			@media (max-width: em(1230)){
 				@include adaptiveValue("padding-bottom", 372, 310);
 			} 
+		}
+		@media (max-width:$tablet){
+			margin-top: 0 !important;
+			position: relative !important;
+			top: 0 !important;
+			left: 0 !important;
+			width: 100% !important;
 		}
 	}
 	&__wrapper{
