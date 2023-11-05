@@ -6,7 +6,9 @@
 }
 
 .btn{
-	--background-color: #5C5C5C;
+	&:focus{
+		box-shadow:inset 0 0 5px 0.5px #ffac08;
+	}
 	--border-color: linear-gradient(to bottom right, red, blue);
 	--border-width: 0.5em;
 	--edge-size: 0.7em;
@@ -16,7 +18,7 @@
 	padding: rem(11) rem(15);
 	min-width: rem(101);
 	color: #fff;
-  	background: var(--background-color);
+  	background: $gray-btn;
   	transition: all 0.3s ease 0s;
   	border: 0;
   	position: relative;
@@ -33,6 +35,9 @@
   );
   	&_red{
 		background-color: $claret;
+		&:focus{
+			box-shadow:inset 0 0 5px 1px #000000;
+		}
 	}
   @media (any-hover: hover){
 	  &:hover{
@@ -45,9 +50,6 @@
 				0% var(--edge-size-h)
 			);
 	  }
-  }
-  &:focus{
-		box-shadow: inset 0 0 0 0.2rem rgb(94 34 241 / 73%);
   }
 }
 
