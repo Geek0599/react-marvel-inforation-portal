@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useCachingService from '../../services/CachingDataService';
+import useCachingService from '../../utils/CachingDataService';
 import './hero-card.scss'
 
 const HeroCard = ({heroIdActive, name, imgUrl, id, setHeroIdActive}) => {

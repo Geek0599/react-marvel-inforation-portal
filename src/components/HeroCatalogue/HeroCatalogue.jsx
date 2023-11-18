@@ -5,14 +5,37 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import HeroCard from '../HeroCard/HeroCard'
 import HeroAside from '../HeroAside/HeroAside'
 import useMarvelService from '../../services/MarvelService'
-import useCachingService from '../../services/CachingDataService';
+import useCachingService from '../../utils/CachingDataService';
 
 const initialHeroCards = 9
 const itemsToLoad = 6;
 
+const setContent = (procces, componentView, skeletonComp, errorComp, items) => {
+	switch (procces){
+		case "waiting":
+			return skeletonComp
+			break
+		case "loading":
+			return items.length ? (
+				<>
+					{componentView}
+					{skeletonComp}
+				</>
+			) : skeletonComp;
+			break
+		case "confirmed":
+			return componentView;
+			break
+		case "error": 
+			return errorComp;
+			break
+		default:
+			throw new Error('Unexpected process state')
+	}
+}
 
 const HeroCatalogue = ({classModificator}) => {
-	const {loading, error, getAllCharacters, clearError} = useMarvelService()
+	const {getAllCharacters, clearError, procces, setProcces} = useMarvelService()
 	const [characters, setCharacters] = useState([])
 	const [heroIdActive, setHeroIdActive] = useState(null)
 	const [heroEnded, setHeroEnded] = useState(false)
@@ -33,6 +56,7 @@ const HeroCatalogue = ({classModificator}) => {
 			if(heroIdActiveCached){
 				setHeroIdActive(heroIdActiveCached)
 			}
+			setProcces('confirmed')
 		}else{
 			const res = await getAllCharacters(limit, offset)
 			if(res.length === 0) setHeroEnded(true)
@@ -44,24 +68,16 @@ const HeroCatalogue = ({classModificator}) => {
 			const newOffset = res.offset + (!characters.length ? initialHeroCards : itemsToLoad)
 			setContentToSessionStorage('offsetHeroCatalogue', newOffset)
 			setOffset(newOffset)
+			setProcces('confirmed')
 		}
 	}
 
-
-
-
-	const skeleton = (key) => {
-		return (
-			<div key={key} className='hero-card skeleton'>
-				<div className="hero-card__image-ibg"></div>
-				<div className="hero-card__info">
-					<h3 className="hero-card__title title"></h3>
-				</div>
-			</div>
-		)
-	}
 	const renderSkeletons = (count) => {
-		return Array(count).fill(null).map((_, index)=>skeleton(index))
+		return Array(count).fill(null).map((_, index)=><Skeleton key={index}/>)
+	}
+
+	const renderItems = (characters, heroIdActive, setHeroIdActive) => {
+		return characters.map((hero, index)=><HeroCard heroIdActive={heroIdActive} setHeroIdActive={setHeroIdActive} key={index} {...hero}/>)
 	}
 
 
@@ -70,15 +86,30 @@ const HeroCatalogue = ({classModificator}) => {
 			<div className="hero-catalog__container">
 				<div className="hero-list">
 					<div className="hero-list__items">
-						{error ? <ErrorMessage style={{maxWidth: '350px', width: '100%', margin: '0 auto'}}/> : null}
-						{characters.length && !error ? characters.map((hero, index)=><HeroCard heroIdActive={heroIdActive} setHeroIdActive={setHeroIdActive} key={index} {...hero}/>) : null}
-						{loading && !error? renderSkeletons(!characters.length ? initialHeroCards : itemsToLoad) : null}
+						{setContent(
+							procces,
+							renderItems(characters, heroIdActive, setHeroIdActive),
+							renderSkeletons(!characters.length ? initialHeroCards : itemsToLoad),
+							<ErrorMessage style={{maxWidth: '350px', width: '100%', margin: '0 auto'}}/>,
+							characters
+						)}
 					</div>
-					{!characters.length && loading && !error ? null : 
-						<button disabled={loading} style={heroEnded ? {display: 'none'} : null} onClick={()=>loadHeroes(itemsToLoad, offset, true)} className="hero-list__btn btn btn_red">LOAD MORE</button>
+					{!characters.length && procces === 'loading' && procces !== 'error' ? null : 
+						<button disabled={procces === 'loading'} style={heroEnded ? {display: 'none'} : null} onClick={()=>loadHeroes(itemsToLoad, offset, true)} className="hero-list__btn btn btn_red">LOAD MORE</button>
 					}
 				</div>
 				<HeroAside heroId={heroIdActive} />
+			</div>
+		</div>
+	)
+}
+
+const Skeleton = ({key}) => {
+	return (
+		<div key={key} className='hero-card skeleton'>
+			<div className="hero-card__image-ibg"></div>
+			<div className="hero-card__info">
+				<h3 className="hero-card__title title"></h3>
 			</div>
 		</div>
 	)

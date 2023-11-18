@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 import useMarvelService from '../../services/MarvelService'
-import useCachingService from '../../services/CachingDataService';
+import useCachingService from '../../utils/CachingDataService';
 
 import FindHero from '../FindHero/FindHero'
 import ErrorMessage from '../ErrorMessage/ErrorMessage'
@@ -12,8 +12,27 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage'
 import bgHeroAside from '../../resources/img/bg-hero-catalog.png'
 import './hero-aside.scss'
 
+const setContent = (procces, componentView, skeletonComp, errorComp) => {
+	switch (procces){
+		case "waiting":
+			return null
+			break
+		case "loading":
+			return skeletonComp;
+			break
+		case "confirmed":
+			return componentView;
+			break
+		case "error": 
+			return errorComp;
+			break
+		default:
+			throw new Error('Unexpected process state')
+	}
+}
+
 const HeroAside = ({heroId}) => {
-	const {loading, error, getHeroOrComic, clearError} = useMarvelService()
+	const {getHeroOrComic, clearError, procces, setProcces} = useMarvelService()
 	const {setContentToSessionStorage, getContentFromSessionStorage} = useCachingService()
 	const [hero, setHero] = useState(null)
 	useEffect(()=>{
@@ -21,15 +40,41 @@ const HeroAside = ({heroId}) => {
 		const heroCached = getContentFromSessionStorage('heroAside')
 		if(heroCached && heroCached.id === heroId){
 			setHero(heroCached)
+			setProcces('confirmed')
 		}else if(heroId){
 			getHeroOrComic(heroId, 'characters').then((hero)=>{
 				setHero(hero)
 				setContentToSessionStorage('heroAside', hero)
-			})
+			}).then(()=>setProcces('confirmed'))
 		}
 	},[heroId])
+	
+	return (
+		<StickyContainer className="hero-aside">
+			<Sticky disableIf={window.innerWidth < 992}>
+				{({ style, isSticky}) => (
+					<div style={{...style, marginTop: isSticky ? '15px' : '0px'}} className="hero-aside__body">
+						{
+							setContent(
+								procces,
+								<HeroAsideCard hero={hero}/>,
+								<Skeleton />,
+								<ErrorMessage style={{maxWidth: '200px', width: '100%', margin: '10px auto 10px auto'}} />
+							)
+						}
+						<FindHero classModificator="hero-aside__wrapper" />
+						<div className="hero-aside__bg">
+							<img src={bgHeroAside} alt="bg-hero-catalog" />
+						</div>
+					</div>
+				)}
+			</Sticky>
+		</StickyContainer>
+	)
+}
 
-	const skeleton = (
+const Skeleton = () => {
+	return (
 		<div className="hero-aside__wrapper skeleton">
 			<div className="hero-aside__top top-hero-aside">
 				<div className="top-hero-aside__image-body">
@@ -53,26 +98,6 @@ const HeroAside = ({heroId}) => {
 				})}
 			</ul>
 		</div>
-	)
-	
-	return (
-		<StickyContainer className="hero-aside">
-			<Sticky disableIf={window.innerWidth < 992}>
-				{({ style, isSticky}) => (
-					<div style={{...style, marginTop: isSticky ? '15px' : '0px'}} className="hero-aside__body">
-						{error ? (<ErrorMessage style={{maxWidth: '200px', width: '100%', margin: '10px auto 10px auto'}} />) : null}
-						{heroId && loading && !error ? skeleton : null}
-						{hero && loading === false && !error ? (
-							<HeroAsideCard hero={hero}/>
-						) : null}
-						<FindHero classModificator="hero-aside__wrapper" />
-						<div className="hero-aside__bg">
-							<img src={bgHeroAside} alt="bg-hero-catalog" />
-						</div>
-					</div>
-				)}
-			</Sticky>
-		</StickyContainer>
 	)
 }
 

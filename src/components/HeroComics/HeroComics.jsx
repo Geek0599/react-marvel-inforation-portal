@@ -25,8 +25,27 @@ function formatDate(inputDate) {
 	return formattedDate;
 }
 
+const setContent = (procces, componentView, skeletonComp, errorComp) => {
+	switch (procces){
+		case "waiting":
+			return skeletonComp
+			break
+		case "loading":
+			return skeletonComp;
+			break
+		case "confirmed":
+			return componentView;
+			break
+		case "error": 
+			return errorComp;
+			break
+		default:
+			throw new Error('Unexpected process state')
+	}
+}
+
 const HeroComics = ({classModificator}) => {
-	const {loading, error, getHeroOrComic} = useMarvelService()
+	const {getHeroOrComic, procces, setProcces} = useMarvelService()
 	const [data, setData] = useState(null)
 	const {comicId, heroId} = useParams()
 	const id = comicId || heroId
@@ -41,7 +60,7 @@ const HeroComics = ({classModificator}) => {
 	const loadData = () => {
 		getHeroOrComic(id, type.toLowerCase()).then((data)=> {
 			setData(data)
-		})
+		}).then(()=>setProcces('confirmed'))
 	}
 
 	const titleMetaChange = (type, data) => {
@@ -56,13 +75,24 @@ const HeroComics = ({classModificator}) => {
 		)
 	}
 
-	const errorMes = error ? 
-		(<div className="page__container d-flex d-flex_center">
-			<ErrorMessage style={{maxWidth: '100%'}} />
-		</div>) : null
-	const skeleton = loading && !error ? <Skeleton classModificator={classModificator} isComics={isComics} /> : null
-	const view = loading === false && !error && data ? 
-		(<div className={`character ${classModificator ? classModificator : '' }`}>
+	return (
+		<>
+			{titleMetaChange(type, data)}
+			{setContent(
+				procces,
+				<View classModificator={classModificator} isComics={isComics} data={data}/>,
+				<Skeleton classModificator={classModificator} isComics={isComics} />,
+				<div className="page__container d-flex d-flex_center">
+					<ErrorMessage style={{maxWidth: '100%'}} />
+				</div>
+			)}
+		</>
+	)
+}
+
+const View = ({classModificator, isComics, data}) => {
+	return (
+		<div className={`character ${classModificator ? classModificator : '' }`}>
 			<div className="character__container">
 				<div className={`character__image-body ${isComics ? 'character__image-body_comics' : ''}`}>
 					<div className="character__img-ibg">
@@ -102,16 +132,7 @@ const HeroComics = ({classModificator}) => {
 						: null}
 				</div>
 			</div>
-		</div>)
-	: null
-
-	return (
-		<>
-			{titleMetaChange(type, data)}
-			{errorMes}
-			{skeleton}
-			{view}
-		</>
+		</div>
 	)
 }
 
